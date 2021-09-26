@@ -31,7 +31,7 @@
 // 0. AFFICHAGE DE TEXTE AVEC SDL_ttf
 // ##################################
 
-// Définit SDL_TTF_OK ou non
+// Dï¿½finit SDL_TTF_OK ou non
 #include "police.h"
 
 #ifdef SDL_TTF_OK
@@ -49,18 +49,18 @@
 // ########################
 
 	// 1.1 La variable dans laquelle
-	// l'image finale est écrite
+	// l'image finale est ï¿½crite
 	SDL_Surface * SDL_screen;
 	
-	// 1.2 Pour ne pas oublier l'appel à init_graphics()
+	// 1.2 Pour ne pas oublier l'appel ï¿½ init_graphics()
 	int __init_graphics_is_already_called = 0;
 
 	// 1.3 Si SDL_AFFICHE_AUTO vaut 1, l'affichage
 	// est automatiquement fait pour chaque objet
-	// Sinon il faut le fait à la main
+	// Sinon il faut le fait ï¿½ la main
 	int SDL_AFFICHE_AUTO = 1;
 	
-	// 1.4 Les constantes de taille max de l'écran
+	// 1.4 Les constantes de taille max de l'ï¿½cran
 	#define MAX_WIDTH  2048
 	#define MAX_HEIGHT 1200
 
@@ -71,9 +71,9 @@
 // 2. AFFICHAGE
 // ############
 
-	// 2.1 Initialisation de la fenêtre sur laquelle on dessine
-	// W et H sont la largeur et la hauteur désirée.
-	// La variable globale SDL_screen est initialisée
+	// 2.1 Initialisation de la fenï¿½tre sur laquelle on dessine
+	// W et H sont la largeur et la hauteur dï¿½sirï¿½e.
+	// La variable globale SDL_screen est initialisï¿½e
 void init_graphics(int W, int H)
 	{
 	// Initialisation d'une taille raisonnable
@@ -89,14 +89,14 @@ void init_graphics(int W, int H)
 		exit(1);
 		}
 	
-	// Supprime le curseur de la souris dans la fenêtre
+	// Supprime le curseur de la souris dans la fenï¿½tre
 	// SDL_ShowCursor(SDL_DISABLE);
 	
-	// Autorise la prise en compte de répétition lors d'un appui
+	// Autorise la prise en compte de rï¿½pï¿½tition lors d'un appui
 	// long sur une touche
 	SDL_EnableKeyRepeat(1,0);
 	
-	// Le titre de la fenêtre
+	// Le titre de la fenï¿½tre
 	SDL_WM_SetCaption("UVSQ -- SDL -- Franck.Quessette@uvsq.fr",NULL);
 	
 	__init_graphics_is_already_called = 25;
@@ -112,7 +112,7 @@ void init_graphics(int W, int H)
 		printf("SDL_ttf absent : affichage dans la console.\n");
 	#endif
 	
-	// Remplit la fenêtre de noir
+	// Remplit la fenï¿½tre de noir
 	fill_screen(noir);
 	affiche_auto_on();
 	affiche_all();
@@ -121,8 +121,8 @@ void init_graphics(int W, int H)
 	// 2.2 Affichage automatique ou manuel
 void affiche_auto_on () { SDL_AFFICHE_AUTO = 1; }
 void affiche_auto_off() { SDL_AFFICHE_AUTO = 0; }
-	// Affiche tous les objets et vérifie que la fonction init_graphics 
-	// a été appelée précédemment et affiche un message d'erreur sinon.	
+	// Affiche tous les objets et vï¿½rifie que la fonction init_graphics 
+	// a ï¿½tï¿½ appelï¿½e prï¿½cï¿½demment et affiche un message d'erreur sinon.	
 void affiche_all()
 	{
 	SDL_Event event;
@@ -130,10 +130,10 @@ void affiche_all()
 	if (__init_graphics_is_already_called == 25) SDL_Flip(SDL_screen);
 		else {
 		     init_graphics(380,80);
-		     write_text("init_graphics() n'a pas été appelée.");
+		     write_text("init_graphics() n'a pas ï¿½tï¿½ appelï¿½e.");
 		     write_text("");
 		     write_text("           Cliquer pour terminer.");
-		     fprintf(stderr,"init_graphics() n'a pas été appelée.\n");
+		     fprintf(stderr,"init_graphics() n'a pas ï¿½tï¿½ appelï¿½e.\n");
 		     fprintf(stderr,"Cliquer pour terminer.\n");
 		     wait_clic();
 		     exit(1);
@@ -143,7 +143,7 @@ void affiche_all()
 	// La fonction synchro est la fonction historique	
 void synchro() { affiche_all(); }
 
-	// 2.3 Création de couleur
+	// 2.3 Crï¿½ation de couleur
 COULEUR couleur_RGB(int r, int g, int b)
 	{
 	COULEUR C;
@@ -155,17 +155,17 @@ void souris_visible()  {SDL_ShowCursor(1);}
 void souris_invisible(){SDL_ShowCursor(0);}
 
 // #######################
-// 3. GESTION D'ÉVÉNEMENTS
+// 3. GESTION D'ï¿½Vï¿½NEMENTS
 // #######################
 
-	// 3.1 Renvoie le ou les flèches appuyées
-	// sous forme d'un déplacement en 
-	// x négatif = nombre d'appuis sur la flèche gauche
-	// x positif = nombre d'appuis sur la flèche droite
-	// y négatif = nombre d'appuis sur la flèche bas
-	// y positif = nombre d'appuis sur la flèche haut
-	// Instruction non bloquante, si aucune flèche n'a été
-	// appuyée les champs x et y vaudront 0.
+	// 3.1 Renvoie le ou les flï¿½ches appuyï¿½es
+	// sous forme d'un dï¿½placement en 
+	// x nï¿½gatif = nombre d'appuis sur la flï¿½che gauche
+	// x positif = nombre d'appuis sur la flï¿½che droite
+	// y nï¿½gatif = nombre d'appuis sur la flï¿½che bas
+	// y positif = nombre d'appuis sur la flï¿½che haut
+	// Instruction non bloquante, si aucune flï¿½che n'a ï¿½tï¿½
+	// appuyï¿½e les champs x et y vaudront 0.
 POINT get_arrow()
 	{
 	POINT dep;
@@ -173,10 +173,10 @@ POINT get_arrow()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 		{
-		/* Si l'utilisateur a demandé à fermer la fenêtre, on quitte */
+		/* Si l'utilisateur a demandï¿½ ï¿½ fermer la fenï¿½tre, on quitte */
 		if (event.type == SDL_QUIT) exit(0);
 	
-		/* Si l'utilisateur a appuyé sur une touche */
+		/* Si l'utilisateur a appuyï¿½ sur une touche */
 		if (event.type == SDL_KEYDOWN)
 			{
 			switch (event.key.keysym.sym)
@@ -193,9 +193,9 @@ POINT get_arrow()
 	return dep;
 	}
 
-	// 3.2 Renvoie déplacement de souris
-	// Meme sémantique que get_arrow()
-	// Instruction non bloquante, si la souris n'a pas bougé,
+	// 3.2 Renvoie dï¿½placement de souris
+	// Meme sï¿½mantique que get_arrow()
+	// Instruction non bloquante, si la souris n'a pas bougï¿½,
 	// les champs x et y vaudront 0.
 POINT get_mouse()
 	{
@@ -203,10 +203,10 @@ POINT get_mouse()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 		{
-		/* Si l'utilisateur a demandé à fermer la fenêtre, on quitte */
+		/* Si l'utilisateur a demandï¿½ ï¿½ fermer la fenï¿½tre, on quitte */
 		if (event.type == SDL_QUIT) exit(0);
 	
-		/* Si l'utilisateur a appuyé sur une touche */
+		/* Si l'utilisateur a appuyï¿½ sur une touche */
 		if (event.type == SDL_KEYDOWN)
 			{
 			switch (event.key.keysym.sym)
@@ -215,7 +215,7 @@ POINT get_mouse()
 						default :	break;
 					}
 			}
-		/* Si l'utilisateur a bougé la souris */
+		/* Si l'utilisateur a bougï¿½ la souris */
 		if (event.type == SDL_MOUSEMOTION)
 			{
 			P.x = event.motion.x;
@@ -239,10 +239,10 @@ void wait_escape()
 	affiche_all();
 	while (SDL_WaitEvent(&event) && display)
 		{
-		/* Si l'utilisateur a demandé à fermer la fenêtre, on quitte */
+		/* Si l'utilisateur a demandï¿½ ï¿½ fermer la fenï¿½tre, on quitte */
 		if (event.type == SDL_QUIT) exit(0);
 	
-		/* Si l'utilisateur a appuyé sur une touche */
+		/* Si l'utilisateur a appuyï¿½ sur une touche */
 		if (event.type == SDL_KEYDOWN)
 			{
 			switch (event.key.keysym.sym)
@@ -262,7 +262,7 @@ void wait_escape()
 	}
 
 	// 3.4 Attend que l'utilisateur clique sur le bouton gauche
-	// Renvoie les coordonnées du point cliqué
+	// Renvoie les coordonnï¿½es du point cliquï¿½
 	// Instruction bloquante
 POINT wait_clic()
 	{
@@ -272,7 +272,7 @@ POINT wait_clic()
 	P.x = 0;
 	P.y = 0;
 #ifdef EN_LOCAL
-// A ne mettre que si on est en local, sur les ordi des étudiants, c'est trop lent
+// A ne mettre que si on est en local, sur les ordi des ï¿½tudiants, c'est trop lent
 	#ifdef SDL_TTF_OK
 		POINT E,F;
 		char S[16];
@@ -289,11 +289,11 @@ POINT wait_clic()
 			P.x = event.button.x;
 			P.y = HEIGHT-event.button.y;
 			}
-		/* Si l'utilisateur déplace la souris */
+		/* Si l'utilisateur dï¿½place la souris */
 		if (event.type == SDL_MOUSEMOTION)
 			{
 #ifdef EN_LOCAL
-// A ne mettre que si on est en local, sur les ordi des étudiants, c'est trop lent
+// A ne mettre que si on est en local, sur les ordi des ï¿½tudiants, c'est trop lent
 			#ifdef SDL_TTF_OK
 				if (police[10]) 
 					{
@@ -307,12 +307,12 @@ POINT wait_clic()
 			printf("%cEn attente de clic ... %4d %4d           %c",13,event.motion.x,HEIGHT - event.motion.y,13);
 			fflush(stdout);
 			}
-		/* Si l'utilisateur a demandé à fermer la fenêtre, on quitte */
+		/* Si l'utilisateur a demandï¿½ ï¿½ fermer la fenï¿½tre, on quitte */
 		if (event.type == SDL_QUIT) exit(0);
 	
 		}
 #ifdef EN_LOCAL
-// A ne mettre que si on est en local, sur les ordi des étudiants, c'est trop lent
+// A ne mettre que si on est en local, sur les ordi des ï¿½tudiants, c'est trop lent
 	#ifdef SDL_TTF_OK
 		aff_pol(S,10,E,noir);
 		//draw_fill_rectangle(E,F,jaune);
@@ -324,9 +324,9 @@ POINT wait_clic()
 	return P;
 	}
 
-	// 3.5 Attend que l'on clique et renvoie dans button le bouton cliqué :
+	// 3.5 Attend que l'on clique et renvoie dans button le bouton cliquï¿½ :
 	// *button vaut soit 'G' (pour Gauche), soit 'M' (pour milieu),
-	// soit 'D' (pour Droit) en fonction du bouton cliqué
+	// soit 'D' (pour Droit) en fonction du bouton cliquï¿½
 	// Instruction bloquante
 POINT wait_clic_GMD(char *button)
 	{
@@ -342,13 +342,13 @@ POINT wait_clic_GMD(char *button)
 		F.x = WIDTH; F.y = 0;
 	#endif
 	affiche_all();
-	printf("Cliquer dans la fenêtre...");
+	printf("Cliquer dans la fenï¿½tre...");
 	while (SDL_WaitEvent(&event) && encore)
 		{
-		/* Si l'utilisateur a demandé à fermer la fenêtre, on quitte */
+		/* Si l'utilisateur a demandï¿½ ï¿½ fermer la fenï¿½tre, on quitte */
 		if (event.type == SDL_QUIT) exit(0);
 	
-		/* Si l'utilisateur a cliqué avec la souris */
+		/* Si l'utilisateur a cliquï¿½ avec la souris */
 		if ((event.type == SDL_MOUSEBUTTONDOWN))
 			{
 			#ifdef SDL_TTF_OK
@@ -360,7 +360,7 @@ POINT wait_clic_GMD(char *button)
 					affiche_all();
 					}
 			#endif
-			printf("%cCliquer dans la fenêtre ... %4d %4d           %c",13,event.motion.x,HEIGHT - event.motion.y,13);
+			printf("%cCliquer dans la fenï¿½tre ... %4d %4d           %c",13,event.motion.x,HEIGHT - event.motion.y,13);
 			fflush(stdout);
 			encore=0;
 			P.x = event.button.x;
@@ -382,7 +382,7 @@ POINT wait_clic_GMD(char *button)
 // 4. DESSIN D'OBJETS
 // ##################
 	
-	// 4.1 Remplissage de tout l'écran
+	// 4.1 Remplissage de tout l'ï¿½cran
 void fill_screen(COULEUR color)
 	{
 	int i,j;
@@ -391,8 +391,8 @@ void fill_screen(COULEUR color)
 	if (SDL_AFFICHE_AUTO) affiche_all();
 	}
 
-	// 4.x.1 Fonction de clipping (vérification que le point est 
-	// dans la fenêtre)
+	// 4.x.1 Fonction de clipping (vï¿½rification que le point est 
+	// dans la fenï¿½tre)
 	// Cette fonction n'est pas visible en dehors de ce fichier
 int dans_ecran(int x, int y)
 	{
@@ -403,8 +403,8 @@ int dans_ecran(int x, int y)
 	return 1;
 	}
 
-	// 4.x.2 Macro qui permet d'ajouter un pixel à la SDL_surface
-	// Inverse l'ordonnée entre haut et bas
+	// 4.x.2 Macro qui permet d'ajouter un pixel ï¿½ la SDL_surface
+	// Inverse l'ordonnï¿½e entre haut et bas
 #define add_pix(x,y,color)  if (dans_ecran((x),(y))) *((COULEUR *)SDL_screen->pixels + (HEIGHT-(y)-1) * WIDTH + (x)) = (color)
 
 	// 4.2 Affichage un pixel
@@ -551,7 +551,7 @@ void draw_fill_circle(POINT centre, int rayon, COULEUR color)
 	if (SDL_AFFICHE_AUTO) affiche_all();
 	}
 
-	// 4.8.1 Dessine un quart de cercle en haut à droite
+	// 4.8.1 Dessine un quart de cercle en haut ï¿½ droite
 void draw_circle_HD(POINT centre, int rayon, COULEUR color)
 	{
 	POINT min, max;
@@ -579,7 +579,7 @@ void draw_circle_HD(POINT centre, int rayon, COULEUR color)
 	if (SDL_AFFICHE_AUTO) affiche_all();
 	}
 
-	// 4.8.2 Dessine un quart de cercle en bas à droite
+	// 4.8.2 Dessine un quart de cercle en bas ï¿½ droite
 void draw_circle_BD(POINT centre, int rayon, COULEUR color)
 	{
 	POINT min, max;
@@ -607,7 +607,7 @@ void draw_circle_BD(POINT centre, int rayon, COULEUR color)
 	if (SDL_AFFICHE_AUTO) affiche_all();
 	}
 
-	// 4.8.3 Dessine un quart de cercle en haut à gauche
+	// 4.8.3 Dessine un quart de cercle en haut ï¿½ gauche
 void draw_circle_HG(POINT centre, int rayon, COULEUR color)
 	{
 	POINT min, max;
@@ -636,7 +636,7 @@ void draw_circle_HG(POINT centre, int rayon, COULEUR color)
 	}
 
 
-	// 4.8.4 Dessine un quart de cercle en bas à gauche
+	// 4.8.4 Dessine un quart de cercle en bas ï¿½ gauche
 void draw_circle_BG(POINT centre, int rayon, COULEUR color)
 	{
 	POINT min, max;
@@ -667,7 +667,7 @@ void draw_circle_BG(POINT centre, int rayon, COULEUR color)
 
 	// 4.9 Dessine une ellipse remplie
 	// Les arguments F1 et F2 sont les focales et r est 
-	// la somme des distances à chacun des points focaux
+	// la somme des distances ï¿½ chacun des points focaux
 void draw_fill_ellipse(POINT F1, POINT F2, int r, COULEUR color)
 	{
 	int i,j;
@@ -723,11 +723,11 @@ void draw_fill_triangle(POINT p1, POINT p2, POINT p3, COULEUR color)
 	float a12, b12, a23, b23, a31, b31;
 	float s1, s2, s3;
 	// La droite passant par les point pi et pj
-	// a pour équation : y = aij x  +  bij
+	// a pour ï¿½quation : y = aij x  +  bij
 	a12 = (p1.y-p2.y)/(float)(p1.x-p2.x);   b12 = p1.y - a12*p1.x;
 	a23 = (p2.y-p3.y)/(float)(p2.x-p3.x);   b23 = p2.y - a23*p2.x;
 	a31 = (p3.y-p1.y)/(float)(p3.x-p1.x);   b31 = p3.y - a31*p3.x;
-	// Le signe de sk détermine de quel coté pk est de la droite [pi,pj]
+	// Le signe de sk dï¿½termine de quel cotï¿½ pk est de la droite [pi,pj]
 	s3 = p3.y - (a12*p3.x + b12);
 	s1 = p1.y - (a23*p1.x + b23);
 	s2 = p2.y - (a31*p2.x + b31);
@@ -742,7 +742,7 @@ void draw_fill_triangle(POINT p1, POINT p2, POINT p3, COULEUR color)
 		for (j=miny;j<maxy;j++)
 			{
 			ok = 1;
-			// On vérifie que le point (i,j) est du bon coté
+			// On vï¿½rifie que le point (i,j) est du bon cotï¿½
 			// des 3 droites du triangle
 			if (s3 * (j - (a12*i + b12)) < 0) ok = 0;
 			if (s1 * (j - (a23*i + b23)) < 0) ok = 0;
@@ -753,18 +753,18 @@ void draw_fill_triangle(POINT p1, POINT p2, POINT p3, COULEUR color)
 
 
 // ####################
-// 5. ÉCRITURE DE TEXTE
+// 5. ï¿½CRITURE DE TEXTE
 // ####################
 
 	// 5.1 Affiche du texte avec
-	// Le texte est passé dans l'argument "a_ecrire" 
-	// la police est celle définie par la constante POLICE_NAME 
+	// Le texte est passï¿½ dans l'argument "a_ecrire" 
+	// la police est celle dï¿½finie par la constante POLICE_NAME 
 	//           dans graphics.c
-	// la taille est passée en argument
-	// l'argument p de type POINT est le point en haut à gauche
-	// à partir duquel le texte s'affiche
-	// la COULEUR C passée en argument est la couleur d'affichage
-	// Nécessite l'installation  de SDL_ttf.h
+	// la taille est passï¿½e en argument
+	// l'argument p de type POINT est le point en haut ï¿½ gauche
+	// ï¿½ partir duquel le texte s'affiche
+	// la COULEUR C passï¿½e en argument est la couleur d'affichage
+	// Nï¿½cessite l'installation  de SDL_ttf.h
 void aff_pol(char *a_ecrire, int taille, POINT p, COULEUR C)
 	{
 	#ifdef SDL_TTF_OK
@@ -808,7 +808,7 @@ void aff_pol(char *a_ecrire, int taille, POINT p, COULEUR C)
 	}
 
 	// 5.2 Affiche un entier
-	// Meme sémantique que aff_pol()
+	// Meme sï¿½mantique que aff_pol()
 void aff_int(int n,  int taille, POINT p, COULEUR C)
 	{
 	char s[32];
@@ -816,8 +816,8 @@ void aff_int(int n,  int taille, POINT p, COULEUR C)
 	aff_pol(s,taille,p,C);
 	}
 
-	// 5.3 Affiche dans la fenêtre graphique comme dans une fenêtre
-	// shell mais sans déroulement. Commence en haut et
+	// 5.3 Affiche dans la fenï¿½tre graphique comme dans une fenï¿½tre
+	// shell mais sans dï¿½roulement. Commence en haut et
 	// se termine en bas.
 void write_text(char *a_ecrire)
 	{
@@ -834,7 +834,7 @@ void write_text(char *a_ecrire)
 //		printf("verd\n");
 	    if (a_ecrire)
 		    {
-		    if (fin+strlen(a_ecrire) > 256) {fprintf(stderr,"Chaine de caractère trop longue\n"); return;}
+		    if (fin+strlen(a_ecrire) > 256) {fprintf(stderr,"Chaine de caractï¿½re trop longue\n"); return;}
 	            strcat(s+fin,a_ecrire);
 //		printf("a_ecr : #%s#\n",s);
 	            aff_pol(s,20,position,blanc);
@@ -869,7 +869,7 @@ void writeln() { write_text(NULL); }
 // 6. LECTURE D'ENTIER
 // ###################
 
-	// 6.1 Renvoie l'entier tapé au clavier.
+	// 6.1 Renvoie l'entier tapï¿½ au clavier.
 	// Cette fonction est bloquante
 int lire_entier_clavier()
 	{
@@ -886,7 +886,7 @@ int lire_entier_clavier()
 // 7. GESTION DU TEMPS
 // ###################
 
-	// 7.1 Chronomètre élémentaire, précis à la micro seconde.
+	// 7.1 Chronomï¿½tre ï¿½lï¿½mentaire, prï¿½cis ï¿½ la micro seconde.
 	// Fonction non visible en dehors de ce fichier
 float chrono(int action)
 	{
@@ -902,13 +902,13 @@ float chrono(int action)
 	return delta;
 	}
 
-	// Déclenchement du chrono
-	// Le remet à zéro s'il était déjà lancé
+	// Dï¿½clenchement du chrono
+	// Le remet ï¿½ zï¿½ro s'il ï¿½tait dï¿½jï¿½ lancï¿½
 void  chrono_start() { chrono(0); }
 float chrono_val()   { return chrono(1); }
 
 
-	// 7.2 Attend le nombre de millisecondes passé en argument
+	// 7.2 Attend le nombre de millisecondes passï¿½ en argument
 void attendre(int millisecondes) { SDL_Delay(millisecondes); }
 
 	// 7.3.1 Renvoie l'heure de l'heure courante
@@ -943,7 +943,7 @@ int seconde()
 
 
 // ####################
-// 8. VALEUR ALÉATOIRES
+// 8. VALEUR ALï¿½ATOIRES
 // ####################
 	
 	// 8.1 Renvoie un float dans l'intervalle [0;1[
@@ -956,7 +956,7 @@ float alea_float()
 	}
 
 	// 8.2 Renvoie un int dans l'intervalle [0..N[
-	// soit N valeurs différentes de 0 à N-1
+	// soit N valeurs diffï¿½rentes de 0 ï¿½ N-1
 int alea_int(int N) { return (int)(N*alea_float()); }
 
 
