@@ -276,6 +276,8 @@ int calcule_score()
     return score;
 }
 
+int aide_direction(); 
+
 int est_gagne();
 
 //////////// VUE //////////////
@@ -352,7 +354,7 @@ void colore_case(POINT p, COULEUR couleur)
 
 void efface_case(POINT p)
 {
-	colore_case(p, noir);
+	colore_case(p, gris);
 }
 
 void affiche_case(int nombre, POINT p)
