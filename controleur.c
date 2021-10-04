@@ -52,7 +52,7 @@ void ajoute_aleatoire(int nbEssais, BOOL estDifficile)
         if(plateau[j][i] == plateau[k][i] && k!=8)
             nbFusionHorizontal += 1;
         
-        if((nbFusionHorizontal != 0 || nbFusionVertical != 0) && nbEssais < 7)
+        if((nbFusionHorizontal != 0 || nbFusionVertical != 0) && nbEssais < 10)
         {
             plateau[i][j] = 0;
             ajoute_aleatoire(nbEssais+1, estDifficile); 
@@ -533,26 +533,11 @@ BOOL est_remplie()
     return 1;
 }
 
-BOOL est_gagne()
-{
-    int i, j;
-
-    for ( i = 0; i < 8; i++)
-    {
-        for ( j = 0; j < 8; j++)
-        {
-            if(plateau[i][j] == 32)
-                return 1;
-        }
-    }
-    return 0;
-}
-
-int etat_jeu()
+int etat_jeu(int scoreDiminue)
 {
     if(est_remplie() && nombre_fusion() == 0)
         return 0;
-    else if(est_gagne())
+    else if(calcule_score(scoreDiminue) == 2048)
         return 1;
     else
         return 2;
@@ -784,7 +769,7 @@ void flash_fleche_bas()
 
 void dessine_graphique_1(int scoreDiminue)
 {
-    dessine_background(background_color);
+    dessine_background(0xE3CBB8);
 	dessine_plateau();
 	dessine_score(scoreDiminue);
     dessine_fleches();
@@ -880,7 +865,7 @@ void dessine_fin_jeu(BOOL estGagne)
 {
     POINT p1, p2;
 
-    dessine_background(background_color);
+    dessine_background(0xE3CBB8);
 
     p1.x = 210; p1.y = 350;
     aff_pol("FIN DU JEU", 50, p1, noir);
@@ -932,7 +917,7 @@ int main()
     {
         if(!rejoue)
         {
-            dessine_background(background_color);
+            dessine_background(0xE3CBB8);
             affiche_menu_accueil(estGraphique1, avecFusionTotal, avecAide, estDifficile);
             while (1)
             {
@@ -963,9 +948,9 @@ int main()
 
         while(true)
         {
-            if(etat_jeu() == 0 || etat_jeu() == 1)
+            if(etat_jeu(scoreDiminue) == 0 || etat_jeu(scoreDiminue) == 1)
             {
-                estGagne = etat_jeu();
+                estGagne = etat_jeu(scoreDiminue);
                 break;
             }
 
