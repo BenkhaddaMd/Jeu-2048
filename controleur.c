@@ -9,7 +9,6 @@ typedef struct indice{int x,y;} INDICE;
 
 int plateau[8][8];
 
-
 /////////// MODELE ////////////
 
 int calcule_score()
@@ -25,8 +24,6 @@ int calcule_score()
     }
     return score;
 }
-
-
 
 void ajoute_aleatoire(int nbEssais, BOOL estDifficile)
 {
@@ -392,7 +389,6 @@ int aide_direction()
 {
     int i, j, k, nbFusionVertical, nbFusionHorizontal, droite, gauche, haute, bas;
     int plateauBackup[8][8];
-    BOOL estDeplace;
 
     bas = 0; haute = 0; droite = 0; gauche = 0;
     nbFusionVertical = 0;
@@ -565,34 +561,34 @@ int etat_jeu()
 int determine_option(INDICE pSelectionne)
 {
     INDICE p1, p2;
-    // graph 1
-    p1.x = 260; p1.y = 250;
-    p2.x = 290; p2.y = 220;
+
+    p1.x = 280; p1.y = 250;
+    p2.x = 310; p2.y = 220;
     if(selecte_boutton(p1, p2, pSelectionne))
         return 3;
-    // graph 2
-    p1.x = 410; p1.y = 250;
-    p2.x = 440; p2.y = 220;
+
+    p1.x = 430; p1.y = 250;
+    p2.x = 460; p2.y = 220;
     if(selecte_boutton(p1, p2, pSelectionne))
         return 4;
-    // fusion
+
     p1.x = 400; p1.y = 210;
     p2.x = 440; p2.y = 170;
     if(selecte_boutton(p1, p2, pSelectionne))
         return 2;
-    // aide
+
     p1.x = 400; p1.y = 160;
     p2.x = 440; p2.y = 120;
     if(selecte_boutton(p1, p2, pSelectionne))
         return 1;
-    // difficile
+
     p1.x = 400; p1.y = 110;
     p2.x = 440; p2.y = 70;
     if(selecte_boutton(p1, p2, pSelectionne))
         return 0;
-    // joue
+
     p1.x = 250; p1.y = 50;
-    p2.x = 340; p2.y = 20;
+    p2.x = 450; p2.y = 20;
     if(selecte_boutton(p1, p2, pSelectionne))
         return 5;
 
@@ -614,6 +610,7 @@ int fin_jeu_option(INDICE pSelectionne)
         return 1;
     return -1;
 }
+
 //////////// VUE //////////////
 
 void colore_case(POINT p, COULEUR couleur)
@@ -640,6 +637,11 @@ void affiche_case(int nombre, POINT p)
 	pTexte.x = p.x + 20;
 	pTexte.y = p.y + 30;
 	j = nombre; i = 0;
+
+    if( nombre > 128)
+    {
+        pTexte.x -= 5;
+    }
 
 	while(j != 1)
 	{
@@ -680,23 +682,21 @@ void dessine_plateau()
 	}
 }
 
-void dessine_score()
+void dessine_score(int scoreDiminue)
 {
 	POINT p1, p2;
 	int score;
+
 	p1.x = 450;	p1.y = 350;
 	p2.x = 650;	p2.y = 300;
 
 	draw_fill_rectangle(p1, p2, blanc);
-	draw_fill_circle(p1, 10, background_color);
-	p1.x += 10;	p1.y -= 10;
-	draw_fill_circle(p1, 11, blanc);
-	draw_fill_circle(p2, 10, background_color);
-	p2.x -= 10;	p2.y += 10;
-	draw_fill_circle(p2, 11, blanc);
-
 	p1.x += 45;	p1.y += 5;
-	score = calcule_score();
+	score = calcule_score() - scoreDiminue;
+    if(calcule_score() == 4)
+    {
+        score = 0;
+    }
 	aff_int(score, 35, p1, 0x9C551A);
 
 }
@@ -782,75 +782,98 @@ void flash_fleche_bas()
 	aff_pol("v", 45, p1, 0x9C551A);
 }
 
-void dessine_graphique_1()
+void dessine_graphique_1(int scoreDiminue)
 {
     dessine_background(background_color);
 	dessine_plateau();
-	dessine_score();
+	dessine_score(scoreDiminue);
     dessine_fleches();
 }
 
-void dessine_graphique_2()
+void dessine_graphique_2(int scoreDiminue)
 {
     dessine_background(noir);
 	dessine_plateau();
-	dessine_score();
+	dessine_score(scoreDiminue);
     dessine_fleches();
 }
 
-void affiche_menu_accueil()
+void affiche_menu_accueil(BOOL estGraphique, BOOL avecFusionTotal, BOOL avecAide, BOOL estDifficile)
 {
     POINT p1, p2;
-
-    dessine_background(background_color);
 
     p1.x = 250; p1.y = 400;
     aff_pol("2048", 74, p1, blanc);
 
     p1.x = 260; p1.y = 300;
-    aff_pol("Type graphique", 15, p1, noir);
+    aff_pol("-> Type graphique :", 15, p1, noir);
 
-    p1.x = 260; p1.y = 250;
-    p2.x = 290; p2.y = 220;
+    p1.x = 280; p1.y = 250;
+    p2.x = 310; p2.y = 220;
     draw_fill_rectangle(p1, p2, blanc);
-    p1.x -= 80; p1.y -= 8;
-    aff_pol("Graphique 1", 12, p1, noir);
+    if(estGraphique)
+    {
+        p1.x += 10; p1.y -= 10;
+        p2.x -= 10; p2.y += 10;
+        draw_fill_rectangle(p1, p2, vert); 
+    }     
+    p1.x = 260; p1.y = 242;
+    aff_pol("1", 12, p1, noir);
 
-    p1.x = 410; p1.y = 250;
-    p2.x = 440; p2.y = 220;
+    p1.x = 430; p1.y = 250;
+    p2.x = 460; p2.y = 220;
     draw_fill_rectangle(p1, p2, blanc);
-    p1.x -= 80; p1.y -= 8;
-    aff_pol("Graphique 2", 12, p1, noir);
+    if(!estGraphique)
+    {
+        p1.x += 10; p1.y -= 10;
+        p2.x -= 10; p2.y += 10;
+        draw_fill_rectangle(p1, p2, vert); 
+    }     
+    p1.x = 410; p1.y = 242;
+    aff_pol("2", 12, p1, noir);
 
     p1.x = 260; p1.y = 200;
-    aff_pol("Fusion totale", 15, p1, noir);
+    aff_pol("-> Fusion totale :", 15, p1, noir);
     p1.x = 400; p1.y = 210;
     p2.x = 440; p2.y = 170;
     draw_fill_rectangle(p1, p2, blanc);
+    if(avecFusionTotal)
+    {
+        p1.x += 10; p1.y -= 10;
+        p2.x -= 10; p2.y += 10;
+        draw_fill_rectangle(p1, p2, vert); 
+    }     
 
     p1.x = 260; p1.y = 150;
-    aff_pol("Aide", 15, p1, noir);
+    aff_pol("-> Aide :", 15, p1, noir);
     p1.x = 400; p1.y = 160;
     p2.x = 440; p2.y = 120;
     draw_fill_rectangle(p1, p2, blanc);
+    if(avecAide)
+    {
+        p1.x += 10; p1.y -= 10;
+        p2.x -= 10; p2.y += 10;
+        draw_fill_rectangle(p1, p2, vert); 
+    } 
 
     p1.x = 260; p1.y = 100;
-    aff_pol("Mode difficile", 15, p1, noir);
+    aff_pol("-> Mode difficile :", 15, p1, noir);
     p1.x = 400; p1.y = 110;
     p2.x = 440; p2.y = 70;
     draw_fill_rectangle(p1, p2, blanc);
+    if(estDifficile)
+    {
+        p1.x += 10; p1.y -= 10;
+        p2.x -= 10; p2.y += 10;
+        draw_fill_rectangle(p1, p2, vert); 
+    } 
 
     p1.x = 250; p1.y = 50;
-    p2.x = 340; p2.y = 20;
-    draw_fill_rectangle(p1, p2, blanc);
-    p1.x += 7; p1.y -= 2;
-    aff_pol("JOUER", 20, p1, noir);
-
-    p1.x = 360; p1.y = 50;
     p2.x = 450; p2.y = 20;
     draw_fill_rectangle(p1, p2, blanc);
-    p1.x += 7; p1.y -= 2;
-    aff_pol("SCORE", 20, p1, noir);
+    draw_rectangle(p1, p2, noir);
+    p1.x += 65; p1.y -= 2;
+    aff_pol("JOUER", 20, p1, noir);
 }
 
 void dessine_fin_jeu(BOOL estGagne)
@@ -868,7 +891,7 @@ void dessine_fin_jeu(BOOL estGagne)
         aff_pol("Vous avez perdu ", 16, p1, noir);
     p1.x -= 0; p1.y -= 40;
     if(estGagne)
-        aff_pol("Vous avez la case 2048", 16, p1, noir);
+        aff_pol("Vous avez attient la case 2048", 16, p1, noir);
     else
         aff_pol("Aucune case n'est libre sur le plateau", 16, p1, noir);
     p1.x -= 0; p1.y -= 45;
@@ -878,6 +901,8 @@ void dessine_fin_jeu(BOOL estGagne)
         aff_pol("Plus aucune fusion n'est possible", 16, p1, noir);
     p1.x -= 0; p1.y -= 35;
     aff_pol("Votre score est : ", 16, p1, noir);
+    p1.x += 150;
+    aff_int(calcule_score(), 16, p1, noir);
 
     p1.x = 250; p1.y = 50;
     p2.x = 340; p2.y = 20;
@@ -894,20 +919,21 @@ void dessine_fin_jeu(BOOL estGagne)
 
 int main()
 {
-    int dir;
+    int dir, aide, scoreDiminue;
     POINT p;
     INDICE pSelectionne;
     BOOL estDifficile, avecFusionTotal, estGraphique1, avecAide, estGagne, rejoue;
-    estDifficile = FALSE;   avecFusionTotal = FALSE;    avecAide = FALSE;   rejoue = FALSE;
-    estGraphique1 = FALSE;
-    
+
+    scoreDiminue = 0; aide = -1; estDifficile = FALSE;   avecFusionTotal = FALSE;    avecAide = FALSE;   rejoue = FALSE; estGraphique1 = FALSE;
+
     init_graphics(LONGUEUR,HAUTEUR);
 	
-    while (1)
+    while(1)
     {
         if(!rejoue)
         {
-            affiche_menu_accueil();
+            dessine_background(background_color);
+            affiche_menu_accueil(estGraphique1, avecFusionTotal, avecAide, estDifficile);
             while (1)
             {
                 int option;
@@ -926,13 +952,14 @@ int main()
                     estGraphique1 = FALSE;
                 else if(option == 5)
                     break;
+                affiche_menu_accueil(estGraphique1, avecFusionTotal, avecAide, estDifficile);
             }
         }
         init_plateau(estDifficile);
         if(estGraphique1)
-            dessine_graphique_1();
+            dessine_graphique_1(scoreDiminue);
         else
-            dessine_graphique_2();
+            dessine_graphique_2(scoreDiminue);
 
         while(true)
         {
@@ -941,18 +968,17 @@ int main()
                 estGagne = etat_jeu();
                 break;
             }
-            else
-                printf("pas encore");
 
             if(avecAide)
             {
-                if(aide_direction() == HAUTE)
+                aide = aide_direction();
+                if(aide == HAUTE)
                     flash_fleche_haute();
-                else if(aide_direction() == BAS)
+                else if(aide == BAS)
                     flash_fleche_bas();
-                else if(aide_direction() == GAUCHE)
+                else if(aide == GAUCHE)
                     flash_fleche_gauche();
-                else if(aide_direction() == DROITE)
+                else if(aide == DROITE)
                     flash_fleche_droite();
             }
 
@@ -960,7 +986,8 @@ int main()
             dessine_fleches();
             pSelectionne.x = p.x;   pSelectionne.y = p.y;
             dir = determine_direction(pSelectionne);
-
+            if(aide == dir)
+                scoreDiminue++;
             switch (dir)
             {
             case HAUTE:
@@ -980,7 +1007,7 @@ int main()
             if(dir != -1)
             {
                 dessine_plateau();
-                dessine_score();
+                dessine_score(scoreDiminue);
             }
         }
         dessine_fin_jeu(estGagne);
