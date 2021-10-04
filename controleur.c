@@ -387,12 +387,13 @@ int nombre_fusion()
 
 int aide_direction()
 {
-    int i, j, k, nbFusionVertical, nbFusionHorizontal, droite, gauche, haute, bas;
+    int i, j, k, nbFusionGauche, nbFusionDroite,nbFusionBas, nbFusionHaute;
     int plateauBackup[8][8];
 
-    bas = 0; haute = 0; droite = 0; gauche = 0;
-    nbFusionVertical = 0;
-    nbFusionHorizontal = 0;
+    nbFusionDroite = 0;
+    nbFusionGauche = 0;
+    nbFusionBas = 0;
+    nbFusionHaute = 0;
     for ( i = 0; i < 8; i++)
     {
         for ( j = 0; j < 8; j++)
@@ -412,8 +413,29 @@ int aide_direction()
                     continue;
                 else if(plateau[i][j] == plateau[i][k])
                 {
-                    nbFusionVertical += 1;
+                    nbFusionDroite += 1;
                     j = k+1;
+                }
+            }
+
+        }
+    }
+
+    for(i = 0; i < 8; i++)
+    {
+        for(j = 7; j >= 0 ; j--)
+        {
+            if(plateau[i][j] != 0)
+            {
+                k = j-1;
+                while(k >= 8 && plateau[i][k] == 0)
+                    k--;
+                if(k == -1)
+                    continue;
+                else if(plateau[i][j] == plateau[i][k])
+                {
+                    nbFusionGauche += 1;
+                    j = k-1;
                 }
             }
 
@@ -433,7 +455,7 @@ int aide_direction()
                     continue;
                 else if(plateau[j][i] == plateau[k][i])
                 {
-                    nbFusionHorizontal += 1;
+                    nbFusionBas += 1;
                     j = k+1;
                 }
             }
@@ -441,47 +463,41 @@ int aide_direction()
         }
     }
 
-    deplace_brique_droite(FALSE, FALSE, FALSE);
-    droite = nombre_fusion();
-    for ( i = 0; i < 8; i++)
+    for(i = 0; i < 8; i++)
     {
-        for ( j = 0; j < 8; j++)
-                plateau[i][j] = plateauBackup[i][j];
+        for(j = 7; j >= 0; j--)
+        {
+            if(plateau[j][i] != 0)
+            {
+                k = j-1;
+                while(k >= 0 && plateau[k][i] == 0)
+                    k--;
+                if(k == -1)
+                    continue;
+                else if(plateau[j][i] == plateau[k][i])
+                {
+                    nbFusionHaute += 1;
+                    j = k-1;
+                }
+            }
+
+        }
     }
 
-    deplace_brique_gauche(FALSE, FALSE, FALSE);
-    gauche = nombre_fusion();
-    for ( i = 0; i < 8; i++)
-    {
-        for ( j = 0; j < 8; j++)
-            plateau[i][j] = plateauBackup[i][j];
-    }
-    deplace_brique_haute(FALSE, FALSE, FALSE);
-    haute = nombre_fusion();
     for ( i = 0; i < 8; i++)
     {
         for ( j = 0; j < 8; j++)
             plateau[i][j] = plateauBackup[i][j];
     }
 
-    deplace_brique_bas(FALSE, FALSE, FALSE);
-    bas = nombre_fusion();
-    for ( i = 0; i < 8; i++)
-    {
-        for ( j = 0; j < 8; j++)
-            plateau[i][j] = plateauBackup[i][j];
-    }
-        
-    if(nbFusionVertical > nbFusionHorizontal)
-    {
-        if(droite >= gauche)    return 2;
-        else                    return 3;
-    }
+    if(nbFusionDroite >= nbFusionGauche && nbFusionDroite >= nbFusionHaute && nbFusionDroite >= nbFusionBas)
+        return 2;
+    else if(nbFusionGauche >= nbFusionDroite && nbFusionGauche >= nbFusionHaute && nbFusionGauche >= nbFusionBas)
+        return 3;
+    else if(nbFusionHaute >= nbFusionDroite && nbFusionHaute >= nbFusionGauche && nbFusionHaute >= nbFusionBas)
+        return 0;
     else
-    {
-        if(haute >= bas)    return 0;
-        else                return 1;  
-    }
+        return 1;
     return -1;
 }
 
