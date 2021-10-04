@@ -515,6 +515,11 @@ int determine_direction(INDICE pSelectionne)
 	p2.x = 505;	p2.y = 50;
     if(selecte_boutton(p1, p2, pSelectionne))
         return 3;
+
+    p1.x = 590; p1.y = 280;
+    p2.x = 650; p2.y = 230;
+    if(selecte_boutton(p1, p2, pSelectionne))
+        return 4;
     return -1;
 }
 
@@ -674,15 +679,35 @@ void dessine_score(int scoreDiminue)
 
 	p1.x = 450;	p1.y = 350;
 	p2.x = 650;	p2.y = 300;
-
 	draw_fill_rectangle(p1, p2, blanc);
-	p1.x += 45;	p1.y += 5;
+	p1.x += 45;	
 	score = calcule_score() - scoreDiminue;
     if(calcule_score() == 4)
     {
         score = 0;
     }
 	aff_int(score, 35, p1, 0x9C551A);
+    p1.x -= 20;	p1.y += 35;
+    aff_pol("Votre Score", 25, p1, blanc);
+
+}
+
+void dessine_aide(BOOL avecAide)
+{
+	POINT p1, p2;
+
+    p1.x = 590; p1.y = 280;
+    p2.x = 650; p2.y = 230;
+    draw_fill_rectangle(p1, p2, blanc);
+    if(avecAide)
+    {
+        p1.x += 10; p1.y -= 10;
+        p2.x -= 10; p2.y += 10;
+        draw_fill_rectangle(p1, p2, vert); 
+    } 
+    p1.x = 490; p1.y = 265;
+    aff_pol("-> Aide :", 15, p1, blanc);
+
 
 }
 
@@ -767,19 +792,21 @@ void flash_fleche_bas()
 	aff_pol("v", 45, p1, 0x9C551A);
 }
 
-void dessine_graphique_1(int scoreDiminue)
+void dessine_graphique_1(int scoreDiminue, BOOL avecAide)
 {
     dessine_background(0xE3CBB8);
 	dessine_plateau();
 	dessine_score(scoreDiminue);
+    dessine_aide(avecAide);
     dessine_fleches();
 }
 
-void dessine_graphique_2(int scoreDiminue)
+void dessine_graphique_2(int scoreDiminue, BOOL avecAide)
 {
     dessine_background(noir);
 	dessine_plateau();
 	dessine_score(scoreDiminue);
+    dessine_aide(avecAide);
     dessine_fleches();
 }
 
@@ -942,9 +969,9 @@ int main()
         }
         init_plateau(estDifficile);
         if(estGraphique1)
-            dessine_graphique_1(scoreDiminue);
+            dessine_graphique_1(scoreDiminue, avecAide);
         else
-            dessine_graphique_2(scoreDiminue);
+            dessine_graphique_2(scoreDiminue, avecAide);
 
         while(true)
         {
@@ -971,7 +998,12 @@ int main()
             dessine_fleches();
             pSelectionne.x = p.x;   pSelectionne.y = p.y;
             dir = determine_direction(pSelectionne);
-            if(aide == dir)
+            if(dir == 4)
+            {
+                avecAide = !avecAide;
+                dessine_aide(avecAide);
+            }
+            if(aide == dir && avecAide)
                 scoreDiminue++;
             switch (dir)
             {
@@ -988,7 +1020,7 @@ int main()
                 deplace_brique_gauche(estDifficile, TRUE, avecFusionTotal);
                 break;
             }
-            
+
             if(dir != -1)
             {
                 dessine_plateau();
